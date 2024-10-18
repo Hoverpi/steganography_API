@@ -1,0 +1,30 @@
+API Esteganografia version 0
+
+Formatos a soportar = JPG, PNG
+Algoritmos = DCT (unicamente para JPG), BLS (unicamente para PNG)
+
+1) Leer imagenes independientemente de su formato
+2) Hacer que DCT solo se pueda utilizar en formato JPG, y que BLS solo se pueda utilizar en formato PNG
+3) Poder ingresar una cadena de texto a la imagen de acuerdo al formato y algoritmo seleccionado (sin perdida)
+4) Poder extraer el mensaje de acuerdo al formato y algoritmo anteriormente seleccionado
+5) Para las siguientes versiones ingresar mas tipos de formatos y algoritmos mas complejos
+
+Ejemplo de Main.java
+
+--Inserción del mensaje--
+TYPE loadimage   = new FILE("tunel.jpg");
+TYPE message     = "este es el mensaje que se va a ingresar";
+TYPE steno       = new Steganography(new DCT(Format.JPG));
+TYPE outputimage = steno.hideMessage(message, loadimage);
+TYPE outputFile  = new File("output.jpg");
+write outputImage -> outputFile
+
+--Extracción--
+...
+
+Clases:
+- Steganography
+  - Enum Format (PNG, JPG)
+  - Algorithms (Interfaz)
+    - BLS
+    - DCT

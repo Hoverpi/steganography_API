@@ -2,19 +2,23 @@ package com.iteso.steganography;
 
 import java.awt.image.BufferedImage;
 
-public class DCTAlgorithm implements Algorithm {
+public class DCTAlgorithm extends StegoAlgorithmFactory {
 
-    public DCTAlgorithm(Format format) {
-        if (format != Format.JPG) throw new IllegalArgumentException("DCT solo soporta imágenes JPG.");
+    @Override
+    public void hideMessage(String message) {
+        if (super.format != Format.JPG) {
+            throw new UnsupportedOperationException("DCT solo se puede usar con imágenes JPG.");
+        }
+
+        System.out.println("Mensaje oculto (simulado): " + message);
     }
 
     @Override
-    public BufferedImage hideMessage(BufferedImage image, String message) {
-        return image;
-    }
+    public String extractMessage() {
+        if (super.format != Format.JPG) {
+            throw new UnsupportedOperationException("DCT solo se puede usar con imágenes JPG.");
+        }
 
-    @Override
-    public String extractMessage(BufferedImage image) {
-        return "";
+        return "Mensaje extraído (simulado)";
     }
 }

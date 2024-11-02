@@ -1,35 +1,26 @@
 package com.iteso.test;
 
-import com.iteso.steganography.Steganography;
+import com.iteso.steganography.StegoAlgorithmFactory;
+import com.iteso.steganography.FileHandler;
 import com.iteso.steganography.Format;
-import com.iteso.steganography.Algorithm;
 import com.iteso.steganography.LSBAlgorithm;
 import com.iteso.steganography.DCTAlgorithm;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 public class Main {
     public static void main(String[] args) {
-        try {
-            BufferedImage inputImage = ImageIO.read(new File("~/Downloads/tunel.jpg"));
-            Steganography stego = new Steganography(new DCTAlgorithm(Format.JPG), inputImage);
+        FileHandler fileHandler = FileHandler.createInstance("nature.png");
 
-            String message = "Mensaje oculto";
-            BufferedImage outputImage = stego.hideMessage(message);
-            File outputFile = new File("output.jpg");
+        if (fileHandler != null) {
+            String message = "la naturaleza es muy bonita";
+            fileHandler.hideMessage(message);
+            fileHandler.saveImage("imagen_oculta.png");
 
-            ImageIO.write(outputImage, "jpg", outputFile);
-            String extractedMessage = stego.extractMessage();
-
+            String extractedMessage = fileHandler.extractMessage();
             System.out.println("Mensaje extraído: " + extractedMessage);
-
-        } catch (IOException e) {
-            System.err.println("Error al procesar la imagen: " + e.getMessage());
-            e.printStackTrace();
+        } else {
+            System.err.println("No se pudo crear el manejador de archivos.");
         }
     }
 }
+
 

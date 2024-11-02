@@ -2,20 +2,20 @@ package com.iteso.steganography;
 
 import java.awt.image.BufferedImage;
 
-public class LSBAlgorithm implements Algorithm {
-
-    public LSBAlgorithm(Format format) {
-        if (format != Format.PNG) throw new IllegalArgumentException("LSB solo soporta imágenes PNG.");
-    }
+public class LSBAlgorithm extends StegoAlgorithmFactory {
 
     @Override
-    public BufferedImage hideMessage(BufferedImage image, String message) {
+    public void hideMessage(String message) {
+        if (super.format != Format.PNG) {
+            throw new UnsupportedOperationException("LSB solo se puede usar con imágenes PNG.");
+        }
+
         String messageBits = wordsToBits(message);
 
         int indexBit = 0;
         int messageLength = messageBits.length();
-        int width = image.getWidth();
-        int height = image.getHeight();
+        int width = super.image.getWidth();
+        int height = super.image.getHeight();
 
         int maxCapacity = width * height * 3;
         if (messageLength > maxCapacity) {
@@ -24,19 +24,17 @@ public class LSBAlgorithm implements Algorithm {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int rgb = image.getRGB(x, y);
+                int rgb = super.image.getRGB(x, y);
                 rgb = insertBitsInColor(rgb, messageBits, indexBit);
                 indexBit += 3;
 
-                image.setRGB(x, y, rgb);
+                super.image.setRGB(x, y, rgb);
 
                 if (indexBit >= messageLength) {
-                    return image;
+                    return;
                 }
             }
         }
-
-        return image;
     }
 
     private String wordsToBits(String message) {
@@ -70,7 +68,11 @@ public class LSBAlgorithm implements Algorithm {
     }
 
     @Override
-    public String extractMessage(BufferedImage image) {
-        return "";
+    public String extractMessage() {
+        if (format != Format.PNG) {
+            throw new UnsupportedOperationException("LSB solo se puede usar con imágenes PNG.");
+        }
+
+        return null;
     }
 }

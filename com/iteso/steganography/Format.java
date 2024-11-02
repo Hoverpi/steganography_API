@@ -2,7 +2,7 @@ package com.iteso.steganography;
 
 public enum Format {
     PNG("png"),
-    JPG("JPG");
+    JPG("jpg");
 
     private final String FormatName;
 

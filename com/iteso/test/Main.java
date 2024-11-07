@@ -1,25 +1,18 @@
 package com.iteso.test;
 
-import com.iteso.steganography.StegoAlgorithmFactory;
-import com.iteso.steganography.FileHandler;
-import com.iteso.steganography.Format;
-import com.iteso.steganography.LSBAlgorithm;
-import com.iteso.steganography.DCTAlgorithm;
+import com.iteso.steganography.StegoManager;
+
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        FileHandler fileHandler = FileHandler.createInstance("nature.png");
+        StegoManager stegoManager = new StegoManager("nature.png", "la naturaleza es muy bonita");
 
-        if (fileHandler != null) {
-            String message = "la naturaleza es muy bonita";
-            fileHandler.hideMessage(message);
-            fileHandler.saveImage("imagen_oculta.png");
+        stegoManager.hideMessage();
+        stegoManager.saveImage("imagen_oculta.png");
 
-            String extractedMessage = fileHandler.extractMessage();
-            System.out.println("Mensaje extraído: " + extractedMessage);
-        } else {
-            System.err.println("No se pudo crear el manejador de archivos.");
-        }
+        String extractedMessage = stegoManager.extractMessage();
+        System.out.println("Mensaje extraído: " + extractedMessage);
     }
 }
 

@@ -5,10 +5,8 @@ import java.awt.image.BufferedImage;
 public class LSBAlgorithm extends StegoAlgorithmFactory {
 
     @Override
-    public void hideMessage(String message) {
-        if (super.format != Format.PNG) {
-            throw new UnsupportedOperationException("LSB solo se puede usar con imágenes PNG.");
-        }
+    public void hideMessage(BufferedImage image, String message) {
+
 
         String messageBits = wordsToBits(message);
 
@@ -68,11 +66,14 @@ public class LSBAlgorithm extends StegoAlgorithmFactory {
     }
 
     @Override
-    public String extractMessage() {
-        if (format != Format.PNG) {
-            throw new UnsupportedOperationException("LSB solo se puede usar con imágenes PNG.");
-        }
+    public String extractMessage(BufferedImage image) {
+
 
         return null;
+    }
+
+    @Override
+    protected boolean isCompatible(Format format) {
+        return format == Format.PNG;
     }
 }

@@ -1,12 +1,13 @@
 package com.iteso.steganography;
 
+import java.util.Objects;
+
 public class AlgorithmSelector {
     public static StegoAlgorithmFactory selectAlgorithm(Format format) throws UnsupportedAlgorithmException {
         StegoAlgorithmFactory stegoAlgorithm;
 
         switch (format) {
-            case PNG -> stegoAlgorithm = new LSBAlgorithm();
-            case JPG -> stegoAlgorithm = new DCTAlgorithm();
+            case Format.PNG, Format.BMP -> stegoAlgorithm = new LSBAlgorithm();
             default -> throw new UnsupportedAlgorithmException("Formato no soportado");
         }
 
@@ -19,6 +20,6 @@ public class AlgorithmSelector {
 
     static boolean isCompatible(StegoAlgorithmFactory StegoAlgorithm, Format format) {
         return (StegoAlgorithm instanceof LSBAlgorithm && format == Format.PNG) ||
-                (StegoAlgorithm instanceof DCTAlgorithm && format == Format.JPG);
+                (StegoAlgorithm instanceof LSBAlgorithm && format == Format.BMP);
     }
 }

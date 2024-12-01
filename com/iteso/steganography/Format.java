@@ -1,16 +1,25 @@
 package com.iteso.steganography;
 
 public enum Format {
-    PNG("png"),
-    JPG("jpg");
+    PNG(".png"),
+    BMP(".bmp");
 
-    private final String FormatName;
+    private final String extension;
 
-    Format(String FormatName) {
-        this.FormatName = FormatName;
+    Format(String extension) {
+        this.extension = extension;
     }
 
-    public String getFormatName() {
-        return FormatName;
+    public String getExtension() {
+        return extension;
+    }
+
+    public static Format fromString(String format) {
+        for (Format f : Format.values()) {
+            if (f.getExtension().equalsIgnoreCase(format)) {
+                return f;
+            }
+        }
+        throw new IllegalArgumentException("Formato no soportado: " + format);
     }
 }

@@ -2,9 +2,22 @@ package com.iteso.steganography;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Least Significant Bit (LSB) algorithm for hiding and extracting messages from images.
+ * This implementation supports formats like PNG and BMP.
+ */
+
 public class LSBAlgorithm extends StegoAlgorithmFactory {
 
     private static final int HEADER_SIZE = 32;
+
+    /**
+     * Hides a message in the image using the LSB algorithm.
+     *
+     * @param image  The image in which the message will be hidden.
+     * @param message The message to hide in the image.
+     * @throws IllegalArgumentException If the message is too long for the image.
+     */
 
     @Override
     public void hideMessage(BufferedImage image, String message) {
@@ -36,6 +49,13 @@ public class LSBAlgorithm extends StegoAlgorithmFactory {
         }
     }
 
+    /**
+     * Converts a string message into a binary representation.
+     *
+     * @param message The message to convert.
+     * @return A binary string representing the message.
+     */
+
     private String wordsToBits(String message) {
         byte[] byteMessage = message.getBytes();
         StringBuilder messageBits = new StringBuilder();
@@ -45,9 +65,25 @@ public class LSBAlgorithm extends StegoAlgorithmFactory {
         return messageBits.toString();
     }
 
+    /**
+     * Converts an integer value into a 32-bit binary string.
+     *
+     * @param value The integer value to convert.
+     * @return A 32-bit binary string representation of the value.
+     */
+
     private String intToBits(int value) {
         return String.format("%32s", Integer.toBinaryString(value)).replace(' ', '0');
     }
+
+    /**
+     * Inserts the bits of the message into the color values of a pixel.
+     *
+     * @param rgb       The color value of the pixel.
+     * @param messageBits The binary string of the message.
+     * @param indexBit   The current bit index to insert.
+     * @return The new color value with the inserted bits.
+     */
 
     private int insertBitsInColor(int rgb, String messageBits, int indexBit) {
         if (indexBit < messageBits.length()) {
@@ -69,6 +105,14 @@ public class LSBAlgorithm extends StegoAlgorithmFactory {
 
         return rgb;
     }
+
+    /**
+     * Extracts the hidden message from the image.
+     *
+     * @param image The image from which the message will be extracted.
+     * @return The extracted message.
+     * @throws IllegalArgumentException If the data in the image is insufficient.
+     */
 
     @Override
     public String extractMessage(BufferedImage image) {
@@ -101,9 +145,23 @@ public class LSBAlgorithm extends StegoAlgorithmFactory {
         return bitsToWords(messageBits);
     }
 
+    /**
+     * Converts a binary string to an integer.
+     *
+     * @param bits The binary string to convert.
+     * @return The integer value represented by the binary string.
+     */
+
     private int bitsToInt(String bits) {
         return Integer.parseInt(bits, 2);
     }
+
+    /**
+     * Converts a binary string of message bits into a human-readable string.
+     *
+     * @param messageBits The binary string of the message.
+     * @return The decoded message as a string.
+     */
 
     private String bitsToWords(String messageBits) {
         StringBuilder message = new StringBuilder();
@@ -114,7 +172,12 @@ public class LSBAlgorithm extends StegoAlgorithmFactory {
         return message.toString();
     }
 
-
+    /**
+     * Checks if the algorithm is compatible with the given format.
+     *
+     * @param format The format of the image.
+     * @return True if the algorithm supports the format, false otherwise.
+     */
 
     @Override
     protected boolean isCompatible(String format) {

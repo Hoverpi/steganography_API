@@ -165,9 +165,9 @@ public class StegoManager {
             if (stegoAlgorithm != null) {
                 String encryptedMessage = stegoAlgorithm.extractMessage(this.image);
                 if (encryptedMessage != null && !encryptedMessage.isEmpty()) {
-                    return EncryptionUtils.decrypt(encryptedMessage, this.encryptionKey); // Desencriptar al extraer
+                    return EncryptionUtils.decrypt(encryptedMessage, this.encryptionKey); // Decrypt when extracting
                 } else {
-                    return null; // Si no hay mensaje, retornar null
+                    return null; // If there is no message, return null
                 }
             } else {
                 throw new UnsupportedAlgorithmException("Algoritmo de esteganografía no válido.");

@@ -6,14 +6,16 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        String pathname = "../steganography_API/nat.png";
 
-        StegoManager stegoManager = new StegoManager(pathname, "la naturaleza es muy bonita");
+        StegoManager stegoManager = new StegoManager("../steganography_API/nat.png", "la naturaleza es muy bonita", "my8bytekey");
 
         stegoManager.hideMessage();
         stegoManager.saveImage("img.png");
 
+        StegoManager stegoManager2 = new StegoManager("../steganography_API/img.png", null, "my8bytekey");
 
+        String extractedMessage = stegoManager2.extractMessage();
+        System.out.println("Mensaje extraído: " + extractedMessage);
     }
 }
 

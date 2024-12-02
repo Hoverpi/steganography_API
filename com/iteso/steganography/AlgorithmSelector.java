@@ -1,13 +1,24 @@
 package com.iteso.steganography;
 
-import java.util.Objects;
+/**
+ * This class is responsible for selecting the appropriate steganography algorithm
+ * based on the image format provided.
+ */
 
 public class AlgorithmSelector {
-    public static StegoAlgorithmFactory selectAlgorithm(Format format) throws UnsupportedAlgorithmException {
+
+    /**
+     * Selects the algorithm based on the provided format.
+     * @param format The image format (e.g., "png", "bmp").
+     * @return A stego algorithm factory that corresponds to the format.
+     * @throws UnsupportedAlgorithmException If the format is not supported.
+     */
+
+    public static StegoAlgorithmFactory selectAlgorithm(String format) throws UnsupportedAlgorithmException {
         StegoAlgorithmFactory stegoAlgorithm;
 
         switch (format) {
-            case Format.PNG, Format.BMP -> stegoAlgorithm = new LSBAlgorithm();
+            case "png", "bmp" -> stegoAlgorithm = new LSBAlgorithm(); // LSB for PNG and BMP
             default -> throw new UnsupportedAlgorithmException("Formato no soportado");
         }
 
@@ -18,8 +29,15 @@ public class AlgorithmSelector {
         return stegoAlgorithm;
     }
 
-    static boolean isCompatible(StegoAlgorithmFactory StegoAlgorithm, Format format) {
-        return (StegoAlgorithm instanceof LSBAlgorithm && format == Format.PNG) ||
-                (StegoAlgorithm instanceof LSBAlgorithm && format == Format.BMP);
+    /**
+     * Checks if the selected algorithm is compatible with the image format.
+     * @param StegoAlgorithm The stego algorithm to be checked.
+     * @param format The image format (e.g., "png", "bmp").
+     * @return True if the algorithm is compatible with the format.
+     */
+
+    static boolean isCompatible(StegoAlgorithmFactory StegoAlgorithm, String format) {
+        return (StegoAlgorithm instanceof LSBAlgorithm && format.equals("png")) ||
+                (StegoAlgorithm instanceof LSBAlgorithm && format.equals("bmp"));
     }
 }

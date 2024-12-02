@@ -2,13 +2,11 @@ package com.iteso.steganography;
 
 import java.awt.image.BufferedImage;
 
-import static com.iteso.steganography.AlgorithmSelector.isCompatible;
-
 public abstract class StegoAlgorithmFactory {
     protected BufferedImage image;
-    protected Format format;
+    protected String format;
 
-    public void initialize(BufferedImage image, Format format) throws UnsupportedAlgorithmException {
+    public void initialize(BufferedImage image, String format) throws UnsupportedAlgorithmException {
         this.image = image;
         this.format = format;
         if (!isCompatible(format)) {
@@ -19,5 +17,5 @@ public abstract class StegoAlgorithmFactory {
     public abstract void hideMessage(BufferedImage image, String message) throws UnsupportedAlgorithmException;
     public abstract String extractMessage(BufferedImage image) throws UnsupportedAlgorithmException;
 
-    protected abstract boolean isCompatible(Format format);
+    protected abstract boolean isCompatible(String format);
 }

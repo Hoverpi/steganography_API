@@ -34,6 +34,7 @@ public class LSBAlgorithm extends StegoAlgorithmFactory {
             throw new IllegalArgumentException("El mensaje es demasiado largo para esta imagen.");
         }
 
+        // Extract bits from pixels
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int rgb = super.image.getRGB(x, y);
@@ -120,19 +121,19 @@ public class LSBAlgorithm extends StegoAlgorithmFactory {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        // Recuperar bits de los píxeles
+        // Recover pixel bits
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int rgb = image.getRGB(x, y);
 
-                // Extraer los bits menos significativos de los colores
-                dataBits.append(rgb >> 16 & 1); // Rojo
-                dataBits.append(rgb >> 8 & 1);  // Verde
-                dataBits.append(rgb & 1);       // Azul
+                // Extract least significant bits from colors
+                dataBits.append(rgb >> 16 & 1); // Red
+                dataBits.append(rgb >> 8 & 1);  // Green
+                dataBits.append(rgb & 1);       // Blue
             }
         }
 
-        // Leer encabezado para obtener la longitud del mensaje
+        // Read header to get the message length
         int messageLength = bitsToInt(dataBits.substring(0, HEADER_SIZE));
         int messageEndIndex = HEADER_SIZE + messageLength;
 
